@@ -19,7 +19,7 @@ class MongodbService {
         return new Promise(async (res, rej) => {
             const client = await getMongodbConnection();
             const db = await useDefaultDb(client);
-            const todos = await db.collection('mongodb').findOne({ _id: ObjectId(id) });
+            const todos = await db.collection('mongodb').findOne({ _id: new ObjectId(id) });
             client.close();
             res(todos);
         });
@@ -47,7 +47,8 @@ class MongodbService {
         return new Promise(async (res, rej) => {
             const client = await getMongodbConnection();
             const db = await useDefaultDb(client);
-            const todos = await db.collection('mongodb').updateOne({_id: ObjectId(id)}, { $set: { title } }).toArray();
+            console.log(id, title);
+            const todos = await db.collection('mongodb').updateOne({_id: new ObjectId(id)}, { $set: { title } });
             client.close();
             res(todos);
         });
@@ -57,7 +58,7 @@ class MongodbService {
         return new Promise(async (res, rej) => {
             const client = await getMongodbConnection();
             const db = await useDefaultDb(client);
-            const todos = await db.collection('mongodb').deleteOne({ _id: ObjectId(id) });
+            const todos = await db.collection('mongodb').deleteOne({ _id: new ObjectId(id) });
             client.close();
             res(todos);
         });
